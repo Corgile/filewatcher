@@ -15,8 +15,6 @@ void Filter::sendError(const std::string& errorMsg) {
 }
 
 void Filter::filterAndNotify(std::vector<Event::uptr>&& events) {
-  if (events.empty()) {
-    return;
-  }
+  if (events.empty()) { return; }
   notify(std::move(events));
 }

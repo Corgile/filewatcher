@@ -35,13 +35,14 @@ public:
 
   ~InotifyNode();
 
+  static constexpr int ATTRIBUTES = IN_ATTRIB | IN_CREATE | IN_DELETE |
+    IN_MODIFY | IN_MOVED_FROM | IN_MOVED_TO |
+    IN_DELETE_SELF;
+
 private:
   static fs::path
   createFullPath(const fs::path& root, const fs::path& relPath);
-  //@format:off
-  static constexpr int ATTRIBUTES = IN_ATTRIB | IN_CREATE | IN_DELETE |
-                                    IN_MODIFY | IN_MOVED_FROM | IN_MOVED_TO |
-                                    IN_DELETE_SELF;
+//@format:off
   int                                  mWatchDescriptor;
   bool                                 mAlive;
   bool                                 mWatchDescriptorInitialized;

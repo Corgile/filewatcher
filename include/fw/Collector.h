@@ -1,37 +1,46 @@
-#ifndef PFW_COLLECTOR_H
-#define PFW_COLLECTOR_H
+//
+// FileWatch / collector.hh
+// Created by brian on 2024-06-07.
+//
 
+#ifndef COLLECTOR_HH
+#define COLLECTOR_HH
+
+// ReSharper disable CppRedundantQualifier
+#include <thread>
+#include <vector>
+#include <memory>
 #include <atomic>
 #include <chrono>
 #include <mutex>
-#include <vector>
+#include <condition_variable>
 
 #include "fw/Filter.h"
-#include "fw/Semaphore.h"
 
 class Collector {
 public:
   using sptr = std::shared_ptr<Collector>;
   using ptr = Collector*;
+
   Collector(const Filter::sptr& filter, std::chrono::milliseconds sleepDuration);
   ~Collector();
 
-  static void finish(void* args);
-  static void* work(void* args);
-
-  void sendError(const std::string& errorMsg) const;
   void insert(std::vector<Event::uptr>&& events);
   void collect(EventType type, const fs::path& relativePath);
 
-private:
   void sendEvents();
+  void sendError(const std::string& errorMsg) const;
+
+private:
+  // void stop();
+  void work();
 
   Filter::sptr mFilter;
   std::chrono::milliseconds mSleepDuration;
-  pthread_t mRunner;
-  std::atomic<bool> mStopped;
-  std::vector<Event::uptr> inputVector;
+  std::atomic<bool> mRunning;
+  std::thread mRunner;
   std::mutex event_input_mutex;
+  std::vector<Event::uptr> inputVector;
 };
 
-#endif
+#endif //COLLECTOR_HH

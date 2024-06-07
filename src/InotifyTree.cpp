@@ -6,7 +6,6 @@ InotifyTree::InotifyTree(const int inotifyInstance,
   : mCollector(std::move(std::move(collector)))
     , mInotifyInstance(inotifyInstance)
     , mRoot(nullptr) {
-
   if (!exists(path)) {
     mCollector->sendError("路径不存在");
     return;
@@ -53,12 +52,8 @@ void InotifyTree::addNodeReferenceByWD(int wd, InotifyNode::ptr node) {
 }
 
 bool InotifyTree::getRelPath(fs::path& out, int wd) {
-  InotifyNode::ptr node = getInotifyTreeByWatchDescriptor(wd);
-
-  if (node == nullptr) {
-    return false;
-  }
-
+  const InotifyNode::ptr node = getInotifyTreeByWatchDescriptor(wd);
+  if (node == nullptr) { return false; }
   out = node->getRelativePath();
   return true;
 }
@@ -79,9 +74,7 @@ void InotifyTree::removeDirNode(const int wd, const fs::path& name) {
 
 void InotifyTree::removeDirNode(const int wd) {
   InotifyNode::ptr const node = getInotifyTreeByWatchDescriptor(wd);
-  if (node == nullptr) {
-    return;
-  }
+  if (node == nullptr) { return; }
 
   InotifyNode::ptr const parent = node->getParentNode();
   if (parent == nullptr) {

@@ -83,22 +83,20 @@ void InotifyService::emitEventModify(const int wd, const fs::path& name) const {
   dispatchEvent(CHANGED, wd, name);
 }
 
-void InotifyService::emitEventDelete(const int wd, const fs::path& name) const {
-  dispatchEvent(DELETED, wd, name);
-}
-
 void InotifyService::emitEventCreateDir(const int wd,
-                                     const fs::path& name,
-                                     const bool sendInitEvents) const {
+                                        const fs::path& name,
+                                        const bool sendInitEvents) const {
   if (!mTree->nodeExists(wd)) { return; }
   mTree->addDirNode(wd, name, sendInitEvents);
   dispatchEvent(CREATED, wd, name);
 }
 
+void InotifyService::emitEventDelete(const int wd, const fs::path& name) const {
+  dispatchEvent(DELETED, wd, name);
+}
 void InotifyService::emitEventDeleteDir(const int wd) const {
   mTree->removeDirNode(wd);
 }
-
 void InotifyService::emitEventDeleteDir(const int wd, const fs::path& name) const {
   mTree->removeDirNode(wd, name);
 }

@@ -1,2 +1,2 @@
-ADD_EXECUTABLE(main main.cpp)
-TARGET_LINK_LIBRARIES(main PRIVATE fw)
+ADD_EXECUTABLE(fw_test main.cpp)
+TARGET_LINK_LIBRARIES(fw_test PRIVATE fw)

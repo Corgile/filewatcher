@@ -4,7 +4,6 @@
 #include <sys/inotify.h>
 #include <filesystem>
 
-#include "fw/Semaphore.h"
 #include "fw/InotifyService.h"
 
 class InotifyService;

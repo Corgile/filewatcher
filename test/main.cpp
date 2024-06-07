@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
 
   CallBackSignatur _call_back = [](const std::vector<Event::uptr>& events) {
     for (const auto& event : events) {
-      std::cout << std::bitset<16>(event->type)
+      std::cout << std::bitset<8>(event->type)
         << "; " << translate(event->type)
         << ": " << event->relativePath.string() << "\n";
     }
